@@ -26,8 +26,8 @@ from dotenv import load_dotenv
 load_dotenv()  # Charge les variables d'environnement
 
 app = Flask(__name__)
-app.secret_key = os.urandom(24)  # Clé secrète générée aléatoirement
-app.config['DATABASE'] = 'social_network.db'
+app.secret_key = os.getenv('SECRET_KEY', os.urandom(24))
+app.config['DATABASE'] = os.getenv('DATABASE_URL', 'social_network.db')
 
 # CSS commun pour toutes les pages
 COMMON_CSS = """
