@@ -22,6 +22,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import sqlite3
 from datetime import datetime
 import os
+from dotenv import load_dotenv
+load_dotenv()  # Charge les variables d'environnement
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)  # Clé secrète générée aléatoirement
