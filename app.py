@@ -434,6 +434,8 @@ def login():
             else:
                 flash('Nom d\'utilisateur ou mot de passe incorrect', 'error')
                 return redirect(url_for('login'))
+            finally:
+                db.close()
         
         return render_template_string(BASE_TEMPLATE + '''
         {% block content %}
@@ -456,17 +458,6 @@ def login():
         ''', 
         title="Connexion",
         common_css=COMMON_CSS)
-    
-    except Exception as e:
-        app.logger.error(f"Erreur dans login: {str(e)}")
-        flash("Une erreur est survenue lors de la connexion", "error")
-        return redirect(url_for('login'))
-
-@app.route('/logout')
-def logout():
-    session.clear()
-    flash('Vous avez été déconnecté', 'info')
-    return redirect(url_for('login'))
 
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
