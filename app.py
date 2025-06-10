@@ -416,48 +416,6 @@ def register():
         flash("Une erreur est survenue lors de l'inscription", "error")
         return redirect(url_for('register'))
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    try:
-        if request.method == 'POST':
-            username = request.form['username']
-            password = request.form['password']
-            
-            db = get_db()
-            user = db.execute('SELECT * FROM users WHERE username = ?', (username,)).fetchone()
-            
-            if user and check_password_hash(user['password'], password):
-                session['user_id'] = user['id']
-                session['username'] = user['username']
-                flash('Connexion réussie!', 'success')
-                return redirect(url_for('index'))
-            else:
-                flash('Nom d\'utilisateur ou mot de passe incorrect', 'error')
-                return redirect(url_for('login'))
-            finally:
-                db.close()
-        
-        return render_template_string(BASE_TEMPLATE + '''
-        {% block content %}
-        <div class="card">
-            <h2>Connexion</h2>
-            <form action="{{ url_for('login') }}" method="post">
-                <div class="form-group">
-                    <label for="username">Nom d'utilisateur</label>
-                    <input type="text" id="username" name="username" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Mot de passe</label>
-                    <input type="password" id="password" name="password" required>
-                </div>
-                <button type="submit" class="btn">Se connecter</button>
-            </form>
-            <p>Pas encore de compte? <a href="{{ url_for('register') }}">S'inscrire</a></p>
-        </div>
-        {% endblock %}
-        ''', 
-        title="Connexion",
-        common_css=COMMON_CSS)
 
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
