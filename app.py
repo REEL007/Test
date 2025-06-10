@@ -434,8 +434,6 @@ def login():
             else:
                 flash('Nom d\'utilisateur ou mot de passe incorrect', 'error')
                 return redirect(url_for('login'))
-            finally:
-                db.close()
         
         return render_template_string(BASE_TEMPLATE + '''
         {% block content %}
